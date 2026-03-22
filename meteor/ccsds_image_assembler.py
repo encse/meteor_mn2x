@@ -35,7 +35,7 @@ class CcsdsImageAssembler(gr.basic_block):
         if full <= 0:
             return
         
-        print("X")
+        print(".", end='', flush=True)
 
         self._image_buf.extend(self._byte_buffer[:full])
         del self._byte_buffer[:full]
