@@ -71,7 +71,7 @@ import threading
 
 class meteor_demod(gr.top_block, Qt.QWidget):
 
-    def __init__(self, sample_rate=375000):
+    def __init__(self, sample_rate=250000):
         gr.top_block.__init__(self, "Meteor M N 2-x ,72k LRPT demodulator", catch_exceptions=True)
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Meteor M N 2-x ,72k LRPT demodulator")
@@ -305,6 +305,9 @@ class meteor_demod(gr.top_block, Qt.QWidget):
         self.meteor_lrpt_0 = meteor_lrpt(
             sample_rate=sample_rate,
         )
+        self.ccsds_image_viewer_0_0 = self.ccsds_image_viewer_0_0 = CcsdsImageViewer(1568)
+        self._ccsds_image_viewer_0_0_win = sip.wrapinstance(self.ccsds_image_viewer_0_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._ccsds_image_viewer_0_0_win)
         self.ccsds_image_viewer_0 = self.ccsds_image_viewer_0 = CcsdsImageViewer(1568)
         self._ccsds_image_viewer_0_win = sip.wrapinstance(self.ccsds_image_viewer_0.qwidget(), Qt.QWidget)
         self.top_grid_layout.addWidget(self._ccsds_image_viewer_0_win, 0, 1, 4, 1)
@@ -312,8 +315,9 @@ class meteor_demod(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(1, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
+        self.ccsds_image_decoder_0_0 = CcsdsImageDecoder()
         self.ccsds_image_decoder_0 = CcsdsImageDecoder()
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/Users/encse/projects/qpsk/2026-03-07_07-25-06_375000SPS_137900000Hz.cf32', False, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/Users/encse/Downloads/2026-06-27_11-02-28_250000SPS_137900000Hz.cf32', False, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
 
 
@@ -321,7 +325,9 @@ class meteor_demod(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.ccsds_image_decoder_0, 'out'), (self.ccsds_image_viewer_0, 'in'))
+        self.msg_connect((self.ccsds_image_decoder_0_0, 'out'), (self.ccsds_image_viewer_0_0, 'in'))
         self.msg_connect((self.meteor_lrpt_0, 'msu_mr_1'), (self.ccsds_image_decoder_0, 'in'))
+        self.msg_connect((self.meteor_lrpt_0, 'msu_mr_3'), (self.ccsds_image_decoder_0_0, 'in'))
         self.connect((self.blocks_file_source_0, 0), (self.meteor_lrpt_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.meteor_lrpt_0, 0), (self.qtgui_const_sink_x_0_0_0_0, 0))
@@ -352,7 +358,7 @@ def argument_parser():
     description = 'Meteor M-N2 LRPT (72k) OQPSK demodulator'
     parser = ArgumentParser(description=description)
     parser.add_argument(
-        "--sample-rate", dest="sample_rate", type=intx, default=375000,
+        "--sample-rate", dest="sample_rate", type=intx, default=250000,
         help="Set Input sample rate [default=%(default)r]")
     return parser
 

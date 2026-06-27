@@ -42,7 +42,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /Users/encse/projects/qpsk/2026-03-07_07-25-06_375000SPS_137900000Hz.cf32
+    file: /Users/encse/Downloads/2026-06-27_11-02-28_250000SPS_137900000Hz.cf32
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -86,7 +86,7 @@ blocks:
     bus_structure: null
     coordinate: [480, 356.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: ccsds_image_viewer_0
   id: ccsds_image_viewer
   parameters:
@@ -116,7 +116,7 @@ blocks:
     bus_structure: null
     coordinate: [648, 352.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: meteor_lrpt_0
   id: meteor_lrpt
   parameters:
@@ -504,7 +504,7 @@ blocks:
     label: Input sample rate
     short_id: ''
     type: intx
-    value: '375000'
+    value: '250000'
   states:
     bus_sink: false
     bus_source: false
@@ -523,7 +523,7 @@ connections:
 - [meteor_lrpt_0, '2', qtgui_number_sink_0_0, '0']
 - [meteor_lrpt_0, '3', qtgui_number_sink_0_1, '0']
 - [meteor_lrpt_0, msu_mr_1, ccsds_image_decoder_0, in]
-- [meteor_lrpt_0, msu_mr_4, ccsds_image_decoder_0_0, in]
+- [meteor_lrpt_0, msu_mr_3, ccsds_image_decoder_0_0, in]
 
 metadata:
   file_format: 1
