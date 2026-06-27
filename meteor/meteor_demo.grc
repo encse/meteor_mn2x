@@ -42,7 +42,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /Users/encse/Downloads/2026-06-27_11-02-28_250000SPS_137900000Hz.cf32
+    file: /Users/encse/Downloads/2026-06-27_12-39-57_250000SPS_137900000Hz.cf32
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -86,7 +86,7 @@ blocks:
     bus_structure: null
     coordinate: [480, 356.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: ccsds_image_viewer_0
   id: ccsds_image_viewer
   parameters:
@@ -116,7 +116,7 @@ blocks:
     bus_structure: null
     coordinate: [648, 352.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: meteor_lrpt_0
   id: meteor_lrpt
   parameters:
