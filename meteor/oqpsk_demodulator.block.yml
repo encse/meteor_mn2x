@@ -33,7 +33,7 @@ templates:
     callbacks:
     - set_sample_rate(${ sample_rate })
 
-documentation: ./meteor/oqpsk_demodulator.py
-grc_source: /Users/encse/projects/qpsk/meteor/oqpsk_demodulator.grc
+documentation: ./oqpsk_demodulator.py
+grc_source: /Users/encse/projects/meteor_mn2x/meteor/oqpsk_demodulator.grc
 
 file_format: 1

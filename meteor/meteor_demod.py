@@ -111,6 +111,42 @@ class meteor_demod(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
+        self.tabs = Qt.QTabWidget()
+        self.tabs_widget_0 = Qt.QWidget()
+        self.tabs_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tabs_widget_0)
+        self.tabs_grid_layout_0 = Qt.QGridLayout()
+        self.tabs_layout_0.addLayout(self.tabs_grid_layout_0)
+        self.tabs.addTab(self.tabs_widget_0, 'CH1')
+        self.tabs_widget_1 = Qt.QWidget()
+        self.tabs_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tabs_widget_1)
+        self.tabs_grid_layout_1 = Qt.QGridLayout()
+        self.tabs_layout_1.addLayout(self.tabs_grid_layout_1)
+        self.tabs.addTab(self.tabs_widget_1, 'CH2')
+        self.tabs_widget_2 = Qt.QWidget()
+        self.tabs_layout_2 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tabs_widget_2)
+        self.tabs_grid_layout_2 = Qt.QGridLayout()
+        self.tabs_layout_2.addLayout(self.tabs_grid_layout_2)
+        self.tabs.addTab(self.tabs_widget_2, 'CH3')
+        self.tabs_widget_3 = Qt.QWidget()
+        self.tabs_layout_3 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tabs_widget_3)
+        self.tabs_grid_layout_3 = Qt.QGridLayout()
+        self.tabs_layout_3.addLayout(self.tabs_grid_layout_3)
+        self.tabs.addTab(self.tabs_widget_3, 'CH4')
+        self.tabs_widget_4 = Qt.QWidget()
+        self.tabs_layout_4 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tabs_widget_4)
+        self.tabs_grid_layout_4 = Qt.QGridLayout()
+        self.tabs_layout_4.addLayout(self.tabs_grid_layout_4)
+        self.tabs.addTab(self.tabs_widget_4, 'CH5')
+        self.tabs_widget_5 = Qt.QWidget()
+        self.tabs_layout_5 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.tabs_widget_5)
+        self.tabs_grid_layout_5 = Qt.QGridLayout()
+        self.tabs_layout_5.addLayout(self.tabs_grid_layout_5)
+        self.tabs.addTab(self.tabs_widget_5, 'CH6')
+        self.top_grid_layout.addWidget(self.tabs, 0, 1, 4, 1)
+        for r in range(0, 4):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(1, 2):
+            self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_number_sink_0_1 = qtgui.number_sink(
             gr.sizeof_float,
             0,
@@ -305,16 +341,52 @@ class meteor_demod(gr.top_block, Qt.QWidget):
         self.meteor_lrpt_0 = meteor_lrpt(
             sample_rate=sample_rate,
         )
+        self.ccsds_image_viewer_0_1 = self.ccsds_image_viewer_0_1 = CcsdsImageViewer(1568)
+        self._ccsds_image_viewer_0_1_win = sip.wrapinstance(self.ccsds_image_viewer_0_1.qwidget(), Qt.QWidget)
+        self.tabs_grid_layout_3.addWidget(self._ccsds_image_viewer_0_1_win, 0, 0, 1, 1)
+        for r in range(0, 1):
+            self.tabs_grid_layout_3.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.tabs_grid_layout_3.setColumnStretch(c, 1)
+        self.ccsds_image_viewer_0_0_1 = self.ccsds_image_viewer_0_0_1 = CcsdsImageViewer(1568)
+        self._ccsds_image_viewer_0_0_1_win = sip.wrapinstance(self.ccsds_image_viewer_0_0_1.qwidget(), Qt.QWidget)
+        self.tabs_grid_layout_5.addWidget(self._ccsds_image_viewer_0_0_1_win, 0, 0, 1, 1)
+        for r in range(0, 1):
+            self.tabs_grid_layout_5.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.tabs_grid_layout_5.setColumnStretch(c, 1)
+        self.ccsds_image_viewer_0_0_0_0 = self.ccsds_image_viewer_0_0_0_0 = CcsdsImageViewer(1568)
+        self._ccsds_image_viewer_0_0_0_0_win = sip.wrapinstance(self.ccsds_image_viewer_0_0_0_0.qwidget(), Qt.QWidget)
+        self.tabs_grid_layout_4.addWidget(self._ccsds_image_viewer_0_0_0_0_win, 0, 0, 1, 1)
+        for r in range(0, 1):
+            self.tabs_grid_layout_4.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.tabs_grid_layout_4.setColumnStretch(c, 1)
+        self.ccsds_image_viewer_0_0_0 = self.ccsds_image_viewer_0_0_0 = CcsdsImageViewer(1568)
+        self._ccsds_image_viewer_0_0_0_win = sip.wrapinstance(self.ccsds_image_viewer_0_0_0.qwidget(), Qt.QWidget)
+        self.tabs_grid_layout_1.addWidget(self._ccsds_image_viewer_0_0_0_win, 0, 0, 1, 1)
+        for r in range(0, 1):
+            self.tabs_grid_layout_1.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.tabs_grid_layout_1.setColumnStretch(c, 1)
         self.ccsds_image_viewer_0_0 = self.ccsds_image_viewer_0_0 = CcsdsImageViewer(1568)
         self._ccsds_image_viewer_0_0_win = sip.wrapinstance(self.ccsds_image_viewer_0_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._ccsds_image_viewer_0_0_win)
+        self.tabs_grid_layout_2.addWidget(self._ccsds_image_viewer_0_0_win, 0, 0, 1, 1)
+        for r in range(0, 1):
+            self.tabs_grid_layout_2.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.tabs_grid_layout_2.setColumnStretch(c, 1)
         self.ccsds_image_viewer_0 = self.ccsds_image_viewer_0 = CcsdsImageViewer(1568)
         self._ccsds_image_viewer_0_win = sip.wrapinstance(self.ccsds_image_viewer_0.qwidget(), Qt.QWidget)
-        self.top_grid_layout.addWidget(self._ccsds_image_viewer_0_win, 0, 1, 4, 1)
-        for r in range(0, 4):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(1, 2):
-            self.top_grid_layout.setColumnStretch(c, 1)
+        self.tabs_grid_layout_0.addWidget(self._ccsds_image_viewer_0_win, 0, 0, 1, 1)
+        for r in range(0, 1):
+            self.tabs_grid_layout_0.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.tabs_grid_layout_0.setColumnStretch(c, 1)
+        self.ccsds_image_decoder_0_1 = CcsdsImageDecoder()
+        self.ccsds_image_decoder_0_0_1 = CcsdsImageDecoder()
+        self.ccsds_image_decoder_0_0_0_0 = CcsdsImageDecoder()
+        self.ccsds_image_decoder_0_0_0 = CcsdsImageDecoder()
         self.ccsds_image_decoder_0_0 = CcsdsImageDecoder()
         self.ccsds_image_decoder_0 = CcsdsImageDecoder()
         self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/Users/encse/Downloads/2026-06-27_12-39-57_250000SPS_137900000Hz.cf32', False, 0, 0)
@@ -326,8 +398,16 @@ class meteor_demod(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.ccsds_image_decoder_0, 'out'), (self.ccsds_image_viewer_0, 'in'))
         self.msg_connect((self.ccsds_image_decoder_0_0, 'out'), (self.ccsds_image_viewer_0_0, 'in'))
+        self.msg_connect((self.ccsds_image_decoder_0_0_0, 'out'), (self.ccsds_image_viewer_0_0_0, 'in'))
+        self.msg_connect((self.ccsds_image_decoder_0_0_0_0, 'out'), (self.ccsds_image_viewer_0_0_0_0, 'in'))
+        self.msg_connect((self.ccsds_image_decoder_0_0_1, 'out'), (self.ccsds_image_viewer_0_0_1, 'in'))
+        self.msg_connect((self.ccsds_image_decoder_0_1, 'out'), (self.ccsds_image_viewer_0_1, 'in'))
         self.msg_connect((self.meteor_lrpt_0, 'msu_mr_1'), (self.ccsds_image_decoder_0, 'in'))
         self.msg_connect((self.meteor_lrpt_0, 'msu_mr_3'), (self.ccsds_image_decoder_0_0, 'in'))
+        self.msg_connect((self.meteor_lrpt_0, 'msu_mr_2'), (self.ccsds_image_decoder_0_0_0, 'in'))
+        self.msg_connect((self.meteor_lrpt_0, 'msu_mr_5'), (self.ccsds_image_decoder_0_0_0_0, 'in'))
+        self.msg_connect((self.meteor_lrpt_0, 'msu_mr_6'), (self.ccsds_image_decoder_0_0_1, 'in'))
+        self.msg_connect((self.meteor_lrpt_0, 'msu_mr_4'), (self.ccsds_image_decoder_0_1, 'in'))
         self.connect((self.blocks_file_source_0, 0), (self.meteor_lrpt_0, 0))
         self.connect((self.blocks_file_source_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.meteor_lrpt_0, 0), (self.qtgui_const_sink_x_0_0_0_0, 0))

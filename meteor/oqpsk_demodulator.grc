@@ -45,6 +45,18 @@ blocks:
     coordinate: [144, 8.0]
     rotation: 0
     state: enabled
+- name: rrc_alpha
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [448, 152.0]
+    rotation: 0
+    state: enabled
 - name: sps
   id: variable
   parameters:
@@ -86,7 +98,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 208.0]
+    coordinate: [296, 208.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_float_0_0
@@ -147,7 +159,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    const: 1.0 / (2.0 * 3.141592654) * pipeline_sample_rate
+    const: 1.0 / (2.0 * math.pi) * pipeline_sample_rate
     maxoutbuf: '0'
     minoutbuf: '0'
     type: float
@@ -156,7 +168,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [928, 196.0]
+    coordinate: [856, 196.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -173,7 +185,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [928, 300.0]
+    coordinate: [856, 300.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0_0
@@ -190,30 +202,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [928, 244.0]
+    coordinate: [856, 244.0]
     rotation: 0
     state: enabled
-- name: digital_clock_recovery_mm_xx_0
-  id: digital_clock_recovery_mm_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    gain_mu: '0.0087'
-    gain_omega: 0.25*0.0087*0.0087
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    mu: '0.5'
-    omega: sps
-    omega_relative_limit: '0.005'
-    type: complex
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [568, 416.0]
-    rotation: 0
-    state: disabled
 - name: digital_costas_loop_cc_0
   id: digital_costas_loop_cc
   parameters:
@@ -229,27 +220,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [728, 188.0]
-    rotation: 0
-    state: enabled
-- name: digital_fll_band_edge_cc_0
-  id: digital_fll_band_edge_cc
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    filter_size: int(11*sps)
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    rolloff: '0.5'
-    samps_per_sym: sps
-    type: cc
-    w: '0.05'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [408, 76.0]
+    coordinate: [656, 188.0]
     rotation: 0
     state: enabled
 - name: digital_mpsk_snr_est_cc_0
@@ -276,7 +247,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    constellation: digital.constellation_bpsk().base()
+    constellation: digital.constellation_qpsk().base()
     damping: '0.707'
     loop_bw: '0.0087'
     max_dev: '0.01'
@@ -294,7 +265,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [552, 556.0]
+    coordinate: [552, 436.0]
     rotation: 0
     state: enabled
 - name: fir_filter_xxx_1
@@ -307,14 +278,14 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
-    taps: firdes.root_raised_cosine(1.0, pipeline_sample_rate, sym_rate, alpha=0.5,
-      ntaps=31)
+    taps: firdes.root_raised_cosine(1.0, pipeline_sample_rate, sym_rate, alpha=rrc_alpha,
+      ntaps=35)
     type: ccc
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 216.0]
+    coordinate: [448, 216.0]
     rotation: 0
     state: enabled
 - name: import_1
@@ -328,6 +299,19 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [432, 16.0]
+    rotation: 0
+    state: enabled
+- name: import_1_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import math
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 16.0]
     rotation: 0
     state: enabled
 - name: pad_sink_0_0
@@ -363,7 +347,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1064, 196.0]
+    coordinate: [992, 196.0]
     rotation: 0
     state: enabled
 - name: pad_sink_1_0
@@ -467,7 +451,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [928, 140.0]
+    coordinate: [856, 140.0]
     rotation: 0
     state: enabled
 - name: virtual_source_0
@@ -485,20 +469,16 @@ blocks:
     state: enabled
 
 connections:
-- [analog_agc_xx_0, '0', digital_fll_band_edge_cc_0, '0']
+- [analog_agc_xx_0, '0', fir_filter_xxx_1, '0']
 - [blocks_complex_to_float_0_0, '0', blocks_float_to_complex_0_0, '0']
 - [blocks_complex_to_float_0_0, '1', blocks_delay_0_0, '0']
 - [blocks_delay_0_0, '0', blocks_float_to_complex_0_0, '1']
-- [blocks_float_to_complex_0_0, '0', digital_clock_recovery_mm_xx_0, '0']
 - [blocks_float_to_complex_0_0, '0', digital_symbol_sync_xx_0, '0']
 - [blocks_multiply_const_vxx_0, '0', pad_sink_1, '0']
-- [digital_clock_recovery_mm_xx_0, '0', digital_mpsk_snr_est_cc_0, '0']
-- [digital_clock_recovery_mm_xx_0, '0', pad_sink_0_0, '0']
 - [digital_costas_loop_cc_0, '0', virtual_sink_0, '0']
 - [digital_costas_loop_cc_0, '1', blocks_multiply_const_vxx_0, '0']
 - [digital_costas_loop_cc_0, '2', blocks_null_sink_0_0, '0']
 - [digital_costas_loop_cc_0, '3', blocks_null_sink_0, '0']
-- [digital_fll_band_edge_cc_0, '0', fir_filter_xxx_1, '0']
 - [digital_mpsk_snr_est_cc_0, '0', tag_value_to_float_0, '0']
 - [digital_symbol_sync_xx_0, '0', digital_mpsk_snr_est_cc_0, '0']
 - [digital_symbol_sync_xx_0, '0', pad_sink_0_0, '0']

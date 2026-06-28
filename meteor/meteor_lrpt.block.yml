@@ -66,7 +66,7 @@ templates:
     callbacks:
     - set_sample_rate(${ sample_rate })
 
-documentation: ./meteor/meteor_lrpt.py
-grc_source: /Users/encse/projects/qpsk/meteor/meteor_lrpt.grc
+documentation: ./meteor_lrpt.py
+grc_source: /Users/encse/projects/meteor_mn2x/meteor/meteor_lrpt.grc
 
 file_format: 1

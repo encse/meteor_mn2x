@@ -69,7 +69,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [480, 260.0]
+    coordinate: [512, 204.0]
     rotation: 0
     state: enabled
 - name: ccsds_image_decoder_0_0
@@ -84,22 +84,82 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [480, 356.0]
+    coordinate: [512, 316.0]
     rotation: 0
-    state: disabled
+    state: enabled
+- name: ccsds_image_decoder_0_0_0
+  id: ccsds_image_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 260.0]
+    rotation: 0
+    state: enabled
+- name: ccsds_image_decoder_0_0_0_0
+  id: ccsds_image_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 436.0]
+    rotation: 0
+    state: enabled
+- name: ccsds_image_decoder_0_0_1
+  id: ccsds_image_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 484.0]
+    rotation: 0
+    state: enabled
+- name: ccsds_image_decoder_0_1
+  id: ccsds_image_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 372.0]
+    rotation: 0
+    state: enabled
 - name: ccsds_image_viewer_0
   id: ccsds_image_viewer
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    gui_hint: 0,1,4,1
+    gui_hint: tabs@0:0,0,1,1
     width: '1568'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 256.0]
+    coordinate: [680, 200.0]
     rotation: 0
     state: enabled
 - name: ccsds_image_viewer_0_0
@@ -108,15 +168,75 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    gui_hint: ''
+    gui_hint: tabs@2:0,0,1,1
     width: '1568'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 352.0]
+    coordinate: [680, 312.0]
     rotation: 0
-    state: disabled
+    state: enabled
+- name: ccsds_image_viewer_0_0_0
+  id: ccsds_image_viewer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gui_hint: tabs@1:0,0,1,1
+    width: '1568'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 256.0]
+    rotation: 0
+    state: enabled
+- name: ccsds_image_viewer_0_0_0_0
+  id: ccsds_image_viewer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gui_hint: tabs@4:0,0,1,1
+    width: '1568'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 432.0]
+    rotation: 0
+    state: enabled
+- name: ccsds_image_viewer_0_0_1
+  id: ccsds_image_viewer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gui_hint: tabs@5:0,0,1,1
+    width: '1568'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 488.0]
+    rotation: 0
+    state: enabled
+- name: ccsds_image_viewer_0_1
+  id: ccsds_image_viewer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gui_hint: tabs@3:0,0,1,1
+    width: '1568'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 376.0]
+    rotation: 0
+    state: enabled
 - name: meteor_lrpt_0
   id: meteor_lrpt
   parameters:
@@ -222,7 +342,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [496, 436.0]
+    coordinate: [512, 564.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -366,7 +486,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [496, 504.0]
+    coordinate: [512, 632.0]
     rotation: 0
     state: enabled
 - name: qtgui_number_sink_0_0
@@ -429,7 +549,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [496, 576.0]
+    coordinate: [512, 704.0]
     rotation: 0
     state: enabled
 - name: qtgui_number_sink_0_1
@@ -492,7 +612,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [496, 648.0]
+    coordinate: [512, 776.0]
     rotation: 0
     state: enabled
 - name: sample_rate
@@ -512,18 +632,60 @@ blocks:
     coordinate: [32, 360.0]
     rotation: 0
     state: enabled
+- name: tabs
+  id: qtgui_tab_widget
+  parameters:
+    alias: ''
+    comment: ''
+    gui_hint: 0,1,4,1
+    label0: CH1
+    label1: CH2
+    label10: Tab 10
+    label11: Tab 11
+    label12: Tab 12
+    label13: Tab 13
+    label14: Tab 14
+    label15: Tab 15
+    label16: Tab 16
+    label17: Tab 17
+    label18: Tab 18
+    label19: Tab 19
+    label2: CH3
+    label3: CH4
+    label4: CH5
+    label5: CH6
+    label6: Tab 6
+    label7: Tab 7
+    label8: Tab 8
+    label9: Tab 9
+    num_tabs: '6'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [856, 256.0]
+    rotation: 0
+    state: enabled
 
 connections:
 - [blocks_file_source_0, '0', meteor_lrpt_0, '0']
 - [blocks_file_source_0, '0', qtgui_freq_sink_x_0, '0']
 - [ccsds_image_decoder_0, out, ccsds_image_viewer_0, in]
 - [ccsds_image_decoder_0_0, out, ccsds_image_viewer_0_0, in]
+- [ccsds_image_decoder_0_0_0, out, ccsds_image_viewer_0_0_0, in]
+- [ccsds_image_decoder_0_0_0_0, out, ccsds_image_viewer_0_0_0_0, in]
+- [ccsds_image_decoder_0_0_1, out, ccsds_image_viewer_0_0_1, in]
+- [ccsds_image_decoder_0_1, out, ccsds_image_viewer_0_1, in]
 - [meteor_lrpt_0, '0', qtgui_const_sink_x_0_0_0_0, '0']
 - [meteor_lrpt_0, '1', qtgui_number_sink_0, '0']
 - [meteor_lrpt_0, '2', qtgui_number_sink_0_0, '0']
 - [meteor_lrpt_0, '3', qtgui_number_sink_0_1, '0']
 - [meteor_lrpt_0, msu_mr_1, ccsds_image_decoder_0, in]
+- [meteor_lrpt_0, msu_mr_2, ccsds_image_decoder_0_0_0, in]
 - [meteor_lrpt_0, msu_mr_3, ccsds_image_decoder_0_0, in]
+- [meteor_lrpt_0, msu_mr_4, ccsds_image_decoder_0_1, in]
+- [meteor_lrpt_0, msu_mr_5, ccsds_image_decoder_0_0_0_0, in]
+- [meteor_lrpt_0, msu_mr_6, ccsds_image_decoder_0_0_1, in]
 
 metadata:
   file_format: 1
