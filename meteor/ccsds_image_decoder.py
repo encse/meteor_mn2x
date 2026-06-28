@@ -96,14 +96,16 @@ class CcsdsImageDecoder(gr.basic_block):
 
         # emit missing lines
         diff = new_packet_id - self.packet_id
-        missing_lines = diff // 43
-        if missing_lines > 0:
-            if self.current_line is not None:
-                self._emit_rows(self.current_line)
-                self.current_line = None 
 
-            for _ in range(missing_lines):
-                    self._emit_rows(fresh_line())
+        # normally diff is 1 or 30 because we can have 2*14 image packets and a telemetry in between
+        # subsequenct packages to the same channel
+        if diff > 30 and self.current_line is not None:
+            self._emit_rows(self.current_line)
+            self.current_line = None 
+
+        missing_lines = diff // 43 
+        for _ in range(missing_lines):
+            self._emit_rows(fresh_line())
 
         self.packet_id = new_packet_id
 
