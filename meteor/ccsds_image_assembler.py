@@ -18,6 +18,7 @@ class CcsdsImageAssembler(gr.basic_block):
 
         self.message_port_register_in(pmt.intern("in"))
         self.set_msg_handler(pmt.intern("in"), self.handle_msg)
+        self.lines = 0
 
     def handle_msg(self, msg):
         if pmt.is_pair(msg) is False:
@@ -35,7 +36,9 @@ class CcsdsImageAssembler(gr.basic_block):
         if full <= 0:
             return
         
-        print(".", end='', flush=True)
+        self.lines += 1
+        if self.lines % 100 == 0:
+            print(".", end='', flush=True)
 
         self._image_buf.extend(self._byte_buffer[:full])
         del self._byte_buffer[:full]
