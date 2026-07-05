@@ -389,7 +389,7 @@ class meteor_demod(gr.top_block, Qt.QWidget):
         self.ccsds_image_decoder_0_0_0 = CcsdsImageDecoder()
         self.ccsds_image_decoder_0_0 = CcsdsImageDecoder()
         self.ccsds_image_decoder_0 = CcsdsImageDecoder()
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/Users/encse/Downloads/2026-06-27_12-39-57_250000SPS_137900000Hz.cf32', False, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/Users/encse/Downloads/2026-07-04_08-00-37_250000SPS_137900000Hz.cf32', False, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
 
 
