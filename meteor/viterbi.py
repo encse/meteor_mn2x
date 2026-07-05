@@ -32,38 +32,19 @@ class Viterbi(gr.basic_block):
         real -> first soft symbol
         imag -> second soft symbol
 
-    Normal interpretation:
-
-        z0 = I0 + jQ0
-        z1 = I1 + jQ1
-        z2 = I2 + jQ2
-
-        soft stream:
-            I0, Q0, I1, Q1, I2, Q2, ...
-
-    If the OQPSK branch compensation delayed Q in the wrong direction,
-    the symbol sync output may instead look like:
-
-        z0 = I0 + jQ-1
-        z1 = I1 + jQ0
-        z2 = I2 + jQ1
-
-    In that case we need Q lookahead:
-
-        corrected0 = I0 + jQ0 = real(z0) + j imag(z1)
-        corrected1 = I1 + jQ1 = real(z1) + j imag(z2)
-
-    This block tries four candidates:
+    This block tries four interpretations:
 
         A: normal,      0 degree rotation
         B: normal,      90 degree rotation
         C: q_lookahead, 0 degree rotation
         D: q_lookahead, 90 degree rotation
 
-    Important:
-        For q_lookahead, we first rebuild the corrected complex symbols
-        and only then apply the 90 degree rotation. Do not rotate the raw
-        IQ stream before doing q_lookahead.
+    Candidate selection uses hysteresis:
+
+        - keep using the previous active candidate
+        - measure all candidates each block
+        - switch only if the same new candidate is consistently better
+          for several consecutive blocks
     """
 
     BLOCK_BITS = 4096
@@ -143,6 +124,16 @@ class Viterbi(gr.basic_block):
             dtype=np.uint8,
         )
 
+        self.decoded_instant_best = np.zeros(
+            self.BLOCK_BITS,
+            dtype=np.uint8,
+        )
+
+        self.decoded_active = np.zeros(
+            self.BLOCK_BITS,
+            dtype=np.uint8,
+        )
+
         self.reencoded = np.zeros(
             self.history_overlap + self.BLOCK_SOFT,
             dtype=np.uint8,
@@ -154,13 +145,27 @@ class Viterbi(gr.basic_block):
 
         self.candidates = [
             ("normal_rot0", "normal", 0),
-            ("normal_rot90", "normal", 90),
-            ("q_lookahead_rot0", "q_lookahead", 0),
             ("q_lookahead_rot90", "q_lookahead", 90),
+            # ("normal_rot90", "normal", 90),
+            # ("q_lookahead_rot0", "q_lookahead", 0),
         ]
+
+        # Candidate lock / hysteresis.
+        self.active_candidate = None
+        self.pending_candidate = None
+        self.pending_count = 0
+
+        # Tune these if needed.
+        self.switch_required_count = 10
+        self.switch_margin = 0.005
 
         self.last_candidate = "none"
         self.last_ber = 10.0
+
+        self.last_instant_candidate = "none"
+        self.last_instant_ber = 10.0
+
+        self.pending_debug = "none"
 
     def forecast(self, noutput_items, ninputs):
         # +1 because q_lookahead uses imag of the next complex sample.
@@ -297,18 +302,6 @@ class Viterbi(gr.basic_block):
         # We consumed exactly BLOCK_BITS input samples.
         #
         # The lookahead sample was not consumed, so it must not become history yet.
-        #
-        # full_iq layout:
-        #
-        #   0 ... history_iq-1:
-        #       previous history
-        #
-        #   history_iq ... history_iq+BLOCK_BITS-1:
-        #       consumed current block
-        #
-        #   history_iq+BLOCK_BITS:
-        #       lookahead, not consumed
-        #
         consumed_end = self.history_iq + self.BLOCK_BITS
 
         self.prev_iq[:] = self.full_iq[
@@ -334,23 +327,89 @@ class Viterbi(gr.basic_block):
 
         self.build_full_iq(iq_window)
 
-        best_ber = 10.0
-        best_name = "none"
+        instant_best_ber = 10.0
+        instant_best_name = "none"
 
+        active_ber = 10.0
+        active_seen = False
+
+        # Decode all candidates.
         for name, mode, rotation in self.candidates:
             self.build_soft_input(mode, rotation)
             ber = self.decode_and_measure()
 
-            if ber < best_ber:
-                best_ber = ber
-                best_name = name
-                self.decoded_best[:] = self.decoded_tmp[-self.BLOCK_BITS :]
+            decoded_current = self.decoded_tmp[-self.BLOCK_BITS :]
+
+            # Best candidate for this single block.
+            if ber < instant_best_ber:
+                instant_best_ber = ber
+                instant_best_name = name
+                self.decoded_instant_best[:] = decoded_current
+
+            # Current locked/active candidate.
+            if self.active_candidate == name:
+                active_ber = ber
+                active_seen = True
+                self.decoded_active[:] = decoded_current
+
+        # First block: lock immediately to the best candidate.
+        if self.active_candidate is None or not active_seen:
+            self.active_candidate = instant_best_name
+            print(self.active_candidate)
+            self.pending_candidate = None
+            self.pending_count = 0
+
+            selected_name = instant_best_name
+            selected_ber = instant_best_ber
+            self.decoded_best[:] = self.decoded_instant_best
+
+        else:
+            # Default: keep using the previous active candidate.
+            selected_name = self.active_candidate
+            selected_ber = active_ber
+            self.decoded_best[:] = self.decoded_active
+
+            # Is the new instant best meaningfully better than the active one?
+            better_than_active = (
+                instant_best_name != self.active_candidate
+                and instant_best_ber + self.switch_margin < active_ber
+            )
+
+            if better_than_active:
+                if self.pending_candidate == instant_best_name:
+                    self.pending_count += 1
+                else:
+                    self.pending_candidate = instant_best_name
+                    self.pending_count = 1
+
+                # Switch only if the same new candidate wins for long enough.
+                if self.pending_count >= self.switch_required_count:
+                    self.active_candidate = instant_best_name
+                    print(self.active_candidate)
+                    self.pending_candidate = None
+                    self.pending_count = 0
+
+                    selected_name = instant_best_name
+                    selected_ber = instant_best_ber
+                    self.decoded_best[:] = self.decoded_instant_best
+            else:
+                # No consistent challenger.
+                self.pending_candidate = None
+                self.pending_count = 0
 
         bits_out[: self.BLOCK_BITS] = self.decoded_best
-        ber_out[: self.BLOCK_BITS] = best_ber
+        ber_out[: self.BLOCK_BITS] = selected_ber
 
-        self.last_candidate = best_name
-        self.last_ber = best_ber
+        self.last_candidate = selected_name
+        self.last_ber = selected_ber
+
+        self.last_instant_candidate = instant_best_name
+        self.last_instant_ber = instant_best_ber
+
+        if self.pending_candidate is None:
+            self.pending_debug = "none"
+        else:
+            self.pending_debug = f"{self.pending_candidate}:{self.pending_count}"
 
         self.update_history()
 
