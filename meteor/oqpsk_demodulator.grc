@@ -259,7 +259,7 @@ blocks:
     resamp_type: digital.IR_MMSE_8TAP
     sps: sps
     ted_gain: '1'
-    ted_type: digital.TED_MUELLER_AND_MULLER
+    ted_type: digital.TED_MOD_MUELLER_AND_MULLER
     type: cc
   states:
     bus_sink: false

@@ -60,7 +60,7 @@ class oqpsk_demodulator(gr.hier_block2):
         self.fir_filter_xxx_1 = filter.fir_filter_ccc(1, firdes.root_raised_cosine(1.0, pipeline_sample_rate, sym_rate, alpha=rrc_alpha, ntaps=35))
         self.fir_filter_xxx_1.declare_sample_delay(0)
         self.digital_symbol_sync_xx_0 = digital.symbol_sync_cc(
-            digital.TED_MUELLER_AND_MULLER,
+            digital.TED_MOD_MUELLER_AND_MULLER,
             sps,
             0.02,
             0.707,
