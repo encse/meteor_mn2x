@@ -67,8 +67,7 @@ I was greatly inspired by how Satdump implements the protocol, and tried
 reimplement its metrics as well, these are exposed as 'doppler hz' from the
 costas loop, 'SNR (db)' from soft symbols and 'BER' from the viterbi stage.
 
-It's worth checking out the OQPSK demodulator pipeline as well, which is a 1-1
-reimplementation of what Satdump does, only in GNU radio terms. I tried to trim
+It's worth checking out the OQPSK demodulator pipeline as well, which is a close reimplementation of what Satdump does, only in GNU radio terms. I tried to trim
 it down to only this version of Meteor, since the original one supports the
 previous generation as well.
 
