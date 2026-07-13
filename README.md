@@ -4,7 +4,7 @@ The project is using blocks from gr-satellites, follow the installation here.
 
 https://gr-satellites.readthedocs.io/en/latest/installation_intro.html
 
-I wanted to learn about OPQSK demodulation and picked Meteor M-N2.x LRPT as
+I wanted to learn about OQPSK demodulation and picked Meteor M-N2.x LRPT as
 target. This series of the Meteor weather satellites has two members as of 2026.
 Meteor M N2-3 and Meteor M N2-4 active on 137.9MHz with a backup frequency of
 137.1MHz.
